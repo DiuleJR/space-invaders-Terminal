@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #define TAMANHO_JANELA 9
 
+// O TAMANHO_JANELA precisa ser um número ÍMPAR
+// para a nave ficar centralizada na matriz.
+
 // Criar as estruturas necessárias
 // -- Game, Nave, Inimigos e Projéteis
 typedef struct {
@@ -44,18 +47,20 @@ void carregar_config_game() {
 
 void carregar_config_jogador() {
     jogador.vidas = 3;
-    jogador.pos_x = TAMANHO_JANELA - 3;
+    jogador.pos_x = TAMANHO_JANELA - 2;
     jogador.pos_y = TAMANHO_JANELA / 2;
 }
 
 void carregar_tela() {
     for (int i = 0; i < game.janela_x; i++) {
         for (int j = 0; j < game.janela_y; j++) {
+            // criando as bordas da matriz
             if (i == 0 || j == 0 || i == game.janela_x - 1 || j == game.janela_y - 1) {
                 printf("* ");
             }
 
             else {
+                // adicionando o jogador na matriz
                 if (jogador.pos_x == i && jogador.pos_y == j) {
                     printf("^ ");
                 }
@@ -68,6 +73,7 @@ void carregar_tela() {
     }
 }
 
+// jogar tudo na função principal
 int main () {
 
     carregar_config_game();
@@ -76,5 +82,3 @@ int main () {
 
     return 0;
 }
-
-// jogar tudo na função principal
