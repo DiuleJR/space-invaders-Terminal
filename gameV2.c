@@ -101,18 +101,18 @@ void carregar_tela() {
                 }
             }
 
-            // verificações para o jogador não ultrapassar as bordas da matriz
+            // Não deixa o jogador passar da borda direita
             if (jogador.pos_x >= game.janela_x - 1) {
                 jogador.pos_x = game.janela_x - 2;
             }
-
+            
+            // Não deixa o jogador passar da borda esquerda
             if (jogador.pos_x <= 0) {
                 jogador.pos_x = 1;
             }
 
             // criando as bordas da matriz
             if (i == 0 || j == 0 || i == game.janela_x - 1 || j == game.janela_y - 1 || jogador.pos_x == j && jogador.pos_y == i) {
-                
                 if (jogador.pos_x == j && jogador.pos_y == i) {
                     // adicionando o jogador na matriz
                     printf("^ ");
@@ -120,7 +120,6 @@ void carregar_tela() {
                 else {
                     printf("* ");
                 }
-                
             }
 
             else {
