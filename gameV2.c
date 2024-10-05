@@ -125,7 +125,7 @@ void carregar_tela() {
     for (int i = 0; i < game.janela_x; i++) {
         for (int j = 0; j < game.janela_y; j++) {
             if (time_move <= 0) {
-                if (inimigo_3.pos_x == game.janela_x - 2) {
+                if (inimigo_3.pos_x == game.janela_x - 2 && inimigo_3.vida > 0 || inimigo_2.pos_x == game.janela_x - 2 && inimigo_2.vida > 0 || inimigo_1.pos_x == game.janela_x - 2 && inimigo_1.vida > 0) {
                     inimigo_1.move_x *= -1;
                     inimigo_2.move_x *= -1;
                     inimigo_3.move_x *= -1;
@@ -135,7 +135,7 @@ void carregar_tela() {
                     inimigo_3.pos_y += 1;
                 }
 
-                else if (inimigo_1.pos_x == 1) {
+                else if (inimigo_1.pos_x == 1 && inimigo_1.vida > 0 || inimigo_2.pos_x == 1 && inimigo_2.vida > 0 || inimigo_3.pos_x == 1 && inimigo_3.vida > 0) {
                     inimigo_1.move_x *= -1;
                     inimigo_2.move_x *= -1;
                     inimigo_3.move_x *= -1;
