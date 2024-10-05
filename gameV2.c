@@ -14,6 +14,7 @@ typedef struct {
     int janela_y;
     int score;
     int hiScore;
+    int gameOver;
 } Game;
 
 typedef struct {
@@ -53,6 +54,7 @@ void carregar_config_game() {
     game.janela_y = TAMANHO_JANELA;
     game.score = 0;
     game.hiScore = 0;
+    game.gameOver = 0;
 }
 
 void carregar_config_jogador() {
@@ -65,7 +67,7 @@ void carregar_config_jogador() {
 }
 
 void carregar_config_inimigos() {
-    char sprite = 'M';
+    char sprite = 'Y';
     inimigo_1.pos_x = 2;
     inimigo_1.pos_y = 2;
     inimigo_1.sprite = sprite;
@@ -119,6 +121,28 @@ void limpar_tela() {
     system("CLS");
 }
 
+int tela_game_over() {
+    int escolha = 0;
+
+    limpar_tela();
+    printf("\n\n\tGAME OVER!!!!\n\n");
+    printf("\t[1] TENTAR NOVAMENTE\n");
+    printf("\t[2] SAIR\n");
+    printf("\t>> ");
+    scanf("%d", &escolha);
+
+    getchar();
+
+    if (escolha == 2) {
+        return 1;
+    }
+
+    else {
+        return 0;
+    }
+
+}
+
 void carregar_tela() {
     printf("SCORE   HI-SCORE   VIDAS\n");
     printf(" %d         %d         %d\n", game.score, game.hiScore, jogador.vidas);
@@ -148,6 +172,10 @@ void carregar_tela() {
                 inimigo_1.pos_x += inimigo_1.move_x;
                 inimigo_2.pos_x += inimigo_2.move_x;
                 inimigo_3.pos_x += inimigo_3.move_x;
+
+                if (inimigo_1.pos_y == jogador.pos_y - 1) {
+                    game.gameOver = 1;
+                }
 
                 time_move = 5;
             }
@@ -236,17 +264,29 @@ void carregar_tela() {
 // jogar tudo na função principal
 int main () {
     carregar_config_game();
-    carregar_config_jogador();
-    carregar_config_inimigos();
 
     while(1) {
-        if (jogador.vidas > 0){
-            limpar_tela();
-            carregar_tela();
-            actions_jogador();
-        }
+        int sair = 0;
 
-        else {
+        carregar_config_jogador();
+        carregar_config_inimigos();
+        game.gameOver = 0;
+        game.score = 0;
+
+        while(game.gameOver != 1) {
+            if (jogador.vidas > 0){
+                limpar_tela();
+                carregar_tela();
+                actions_jogador();
+            }
+
+            else {
+                break;
+            }
+        }
+        sair = tela_game_over();
+        
+        if (sair != 0) {
             break;
         }
     }
