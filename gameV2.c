@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define TAMANHO_JANELA 9
+#define INIMIGO_VIDA 1
+#define INIMIGO_MOVE_X 1
 
 // O TAMANHO_JANELA precisa ser um número ÍMPAR
 // para a nave ficar centralizada na matriz.
@@ -31,7 +33,7 @@ typedef struct {
     int vida;
     int pos_x;
     int pos_y;
-    int time_move;
+    int move_x;
     char sprite;
 } Inimigo;
 
@@ -43,6 +45,7 @@ Projetil_Nave projetil;
 Inimigo inimigo_1;
 Inimigo inimigo_2;
 Inimigo inimigo_3;
+int time_move = 5;
 
 // Criar funções necessárias
 void carregar_config_game() {
@@ -66,17 +69,20 @@ void carregar_config_inimigos() {
     inimigo_1.pos_x = 2;
     inimigo_1.pos_y = 2;
     inimigo_1.sprite = sprite;
-    inimigo_1.vida = 1;
+    inimigo_1.vida = INIMIGO_VIDA;
+    inimigo_1.move_x = INIMIGO_MOVE_X;
 
     inimigo_2.pos_x = inimigo_1.pos_x + 2;
     inimigo_2.pos_y = inimigo_1.pos_y;
     inimigo_2.sprite = sprite;
-    inimigo_2.vida = 1;
+    inimigo_2.vida = INIMIGO_VIDA;
+    inimigo_2.move_x = INIMIGO_MOVE_X;
 
     inimigo_3.pos_x = inimigo_2.pos_x + 2;
     inimigo_3.pos_y = inimigo_1.pos_y;
     inimigo_3.sprite = sprite;
-    inimigo_3.vida = 1;
+    inimigo_3.vida = INIMIGO_VIDA;
+    inimigo_3.move_x = INIMIGO_MOVE_X;
 }
 
 void actions_jogador() {
@@ -105,6 +111,7 @@ void actions_jogador() {
         }
 
     }
+    time_move--;
     getchar();
 }
 
@@ -117,6 +124,34 @@ void carregar_tela() {
     printf(" %d         %d         %d\n", game.score, game.hiScore, jogador.vidas);
     for (int i = 0; i < game.janela_x; i++) {
         for (int j = 0; j < game.janela_y; j++) {
+            if (time_move <= 0) {
+                if (inimigo_3.pos_x == game.janela_x - 2) {
+                    inimigo_1.move_x *= -1;
+                    inimigo_2.move_x *= -1;
+                    inimigo_3.move_x *= -1;
+
+                    inimigo_1.pos_y += 1;
+                    inimigo_2.pos_y += 1;
+                    inimigo_3.pos_y += 1;
+                }
+
+                else if (inimigo_1.pos_x == 1) {
+                    inimigo_1.move_x *= -1;
+                    inimigo_2.move_x *= -1;
+                    inimigo_3.move_x *= -1;
+
+                    inimigo_1.pos_y += 1;
+                    inimigo_2.pos_y += 1;
+                    inimigo_3.pos_y += 1;
+                }
+
+                inimigo_1.pos_x += inimigo_1.move_x;
+                inimigo_2.pos_x += inimigo_2.move_x;
+                inimigo_3.pos_x += inimigo_3.move_x;
+
+                time_move = 5;
+            }
+
             if (game.score > game.hiScore) {
                 game.hiScore = game.score;
             }
@@ -192,6 +227,7 @@ void carregar_tela() {
                     printf("  ");
                 }
             }
+
         }
         printf("\n");
     }
