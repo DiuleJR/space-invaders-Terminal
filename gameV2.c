@@ -146,9 +146,15 @@ int main () {
     carregar_config_jogador();
 
     while(1) {
-        limpar_tela();
-        carregar_tela();
-        actions_jogador();
+        if (jogador.vidas > 0){
+            limpar_tela();
+            carregar_tela();
+            actions_jogador();
+        }
+
+        else {
+            break;
+        }
     }
 
     return 0;
