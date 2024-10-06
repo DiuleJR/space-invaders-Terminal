@@ -15,6 +15,7 @@ typedef struct {
     int score;
     int hiScore;
     int gameOver;
+    int inimigosMortos;
 } Game;
 
 typedef struct {
@@ -55,6 +56,7 @@ void carregar_config_game() {
     game.score = 0;
     game.hiScore = 0;
     game.gameOver = 0;
+    game.inimigosMortos = 0;
 }
 
 void carregar_config_jogador() {
@@ -85,6 +87,8 @@ void carregar_config_inimigos() {
     inimigo_3.sprite = sprite;
     inimigo_3.vida = INIMIGO_VIDA;
     inimigo_3.move_x = INIMIGO_MOVE_X;
+
+    time_move = 5;
 }
 
 void actions_jogador() {
@@ -177,7 +181,7 @@ void carregar_tela() {
                     game.gameOver = 1;
                 }
 
-                time_move = 5;
+                time_move = 5 - (game.inimigosMortos * 2);
             }
 
             if (game.score > game.hiScore) {
@@ -193,18 +197,21 @@ void carregar_tela() {
                     jogador.disparo = 0;
                     inimigo_1.vida--;
                     game.score += 5;
+                    game.inimigosMortos++;
                 }
 
                 else if (projetil.pos_y == inimigo_2.pos_y && projetil.pos_x == inimigo_2.pos_x && inimigo_2.vida > 0) {
                     jogador.disparo = 0;
                     inimigo_2.vida--;
                     game.score += 5;
+                    game.inimigosMortos++;
                 }
 
                 else if (projetil.pos_y == inimigo_3.pos_y && projetil.pos_x == inimigo_3.pos_x && inimigo_3.vida > 0) {
                     jogador.disparo = 0;
                     inimigo_3.vida--;
                     game.score += 5;
+                    game.inimigosMortos++;
                 }
             }
 
@@ -283,7 +290,7 @@ int main () {
             else {
                 break;
             }
-        }
+        } 
         sair = tela_game_over();
         
         if (sair != 0) {
