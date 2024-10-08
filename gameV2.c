@@ -17,7 +17,7 @@ typedef struct {
     int gameOver;
     int inimigosMortos;
 } Game;
-
+//Estrutura da nave/jogador
 typedef struct {
     int vidas;
     int pos_x;
