@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
 #define TAMANHO_JANELA 9
 #define INIMIGO_VIDA 1
 #define INIMIGO_MOVE_X 1
@@ -17,6 +18,7 @@ typedef struct {
     int gameOver;
     int inimigosMortos;
 } Game;
+
 //Estrutura da nave/jogador
 typedef struct {
     int vidas;
@@ -93,7 +95,9 @@ void carregar_config_inimigos() {
 
 void actions_jogador() {
     printf(">> ");
-    scanf("%c", &jogador.action);
+    //scanf("%c", &jogador.action);
+    jogador.action = getch();
+    fflush(stdin);
 
     // Faz o jogador ir para a esquerda
     if (jogador.action == 'a' || jogador.action == 'A') {
@@ -118,7 +122,7 @@ void actions_jogador() {
 
     }
     time_move--;
-    getchar();
+    //getchar();
 }
 
 void limpar_tela() {
