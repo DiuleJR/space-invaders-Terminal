@@ -180,7 +180,7 @@ void desenhar_tela()
                         deslocamento_inimigo *= -1;
                         //inimigos[index].pos_y++;
                     }
-                    inimigos[index].pos_x += deslocamento_inimigo;
+                    // inimigos[index].pos_x += deslocamento_inimigo;
                 }
 
                 index++;
