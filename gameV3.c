@@ -67,6 +67,7 @@ void carregar_config_projetil() {
 }
 
 void carregar_config_jogador() {
+    jogador.vidas = 3;
     jogador.disparo = 0;
     jogador.pos_x = LARGURA / 2;
     jogador.pos_y = ALTURA - 3;
@@ -128,13 +129,32 @@ void carregar_config_inimigo() {
     
 }
 
+void carregar_game_over() {
+    char menu_gameOver[12][43] = {
+        "                 GAME OVER                 ",
+        "+ - - - - - - - - - - - - - - - - - - - - +",
+        "|                                         |",
+        "|     HIGH_SCORE:          SCORE:         |",
+        "|     XXX                  XXX            |",
+        "|  *                                      |",
+        "|           >> JOGAR NOVAMENTE         *  |",
+        "|                                         |",
+        "|              MENU                       |",
+        "|     *                                   |",
+        "|              QUIT                       |",
+        "+ - - - - - - - - - - - - - - - - - - - - +"
+    };
 
-void menu() {
-
-}
-
-void game_over() {
-
+    while(1) {
+        for (int i = 0; i < 12; i++) {
+            for(int j = 0; j < 43; j++) {
+                printf("%c", menu_gameOver[i][j]);
+            }
+            printf("\n");
+        }
+        scanf("%d");
+    }
+    
 }
 
 void controlar_jogador() {
@@ -166,6 +186,11 @@ void controlar_jogador() {
         if (jogador.pos_x < LARGURA - 2) {
             jogador.pos_x += 1;
         }
+    }
+
+    //criei para testar a tela de game over, caso o player digitar p ou P ele quita da partida
+    if (keyPress == 'p' || keyPress == 'P') {
+        jogador.vidas = 0;
     }
     
 }
@@ -242,6 +267,13 @@ void desenhar_tela()
     WriteConsoleOutputA(console, bufferConsole, tamanhoBuffer, posicaoCaractere, &areaEscritaConsole);
 }
 
+//função que vai gerar... game over
+void gerar_gameOver() {
+    if(jogador.vidas == 0){
+        jogo.game_over = 0;
+    }
+}
+
 
 
 // jogar tudo na função principal
@@ -260,6 +292,10 @@ int main() {
         desenhar_tela();
         controlar_jogador();
         Sleep(ATRASO_TIQUE);
+    }
+
+    if(jogo.game_over == 1){
+        carregar_game_over;
     }
 
     return 0;
