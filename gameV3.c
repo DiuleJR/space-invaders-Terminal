@@ -73,6 +73,34 @@ void carregar_config_jogador() {
     jogador.sprite = 'A';
 }
 
+void carregar_menu_jogo() {
+    char menu[11][43] = {
+        "               SPACE_INVADERS              ",
+        "+ - - - - - - - - - - - - - - - - - - - - +",
+        "|                                         |",
+        "|            >> NEW GAME            +     |",
+        "|  *                                      |",
+        "|               RANKING      *            |",
+        "|                                         |",
+        "|               COMO JOGAR                |",
+        "|       *                                 |",
+        "|               QUIT                      |",
+        "+ - - - - - - - - - - - - - - - - - - - - +"
+    };
+
+    while(1) {
+        for (int i = 0; i < 11; i++) {
+            for(int j = 0; j < 43; j++) {
+                printf("%c", menu[i][j]);
+            }
+            printf("\n");
+        }
+        scanf("%d");
+    }
+    
+}
+
+
 void carregar_config_inimigo() {
 
     int filas_inimigos = 3;
@@ -219,7 +247,8 @@ void desenhar_tela()
 // jogar tudo na função principal
 
 int main() {
-
+ 
+    carregar_menu_jogo();
     carregar_config_jogo();
     carregar_config_jogador();
     carregar_config_projetil();
