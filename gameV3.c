@@ -75,6 +75,8 @@ void carregar_config_jogador() {
 }
 
 void carregar_menu_jogo() {
+    char escolha = ' ';
+
     char menu[11][43] = {
         "               SPACE_INVADERS              ",
         "+ - - - - - - - - - - - - - - - - - - - - +",
@@ -90,13 +92,53 @@ void carregar_menu_jogo() {
     };
 
     while(1) {
+        system("CLS");
         for (int i = 0; i < 11; i++) {
             for(int j = 0; j < 43; j++) {
                 printf("%c", menu[i][j]);
             }
             printf("\n");
         }
-        scanf("%d");
+        
+        escolha = getch();
+        
+        if (escolha == 'w' || escolha == 'W') {
+            if (menu[3][13] == '>') {
+                menu[3][13] = ' ';
+                menu[3][14] = ' ';
+
+                menu[9][13] = '>';
+                menu[9][14] = '>';
+            }
+
+            else if (menu[9][13] == '>') {
+                menu[9][13] = ' ';
+                menu[9][14] = ' ';
+                
+                menu[7][13] = '>';
+                menu[7][14] = '>';
+            }
+
+            else if (menu[7][13] == '>') {
+                menu[7][13] = ' ';
+                menu[7][14] = ' ';
+                
+                menu[5][13] = '>';
+                menu[5][14] = '>';
+            }
+
+            else if (menu[5][13] == '>') {
+                menu[5][13] = ' ';
+                menu[5][14] = ' ';
+                
+                menu[3][13] = '>';
+                menu[3][14] = '>';
+            }
+
+            escolha = ' ';
+            
+        }
+        
     }
     
 }
