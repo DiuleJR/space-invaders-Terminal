@@ -319,27 +319,17 @@ void desenhar_tela()
         bufferConsole[i].Char.AsciiChar = ESPACO_VAZIO;                                    // Preenche com espaços
         bufferConsole[i].Attributes = FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED; // Define cor padrão
     }
-    if (jogador.disparo == 1)
-    {
-
-        int indice = projetil.pos_y * LARGURA + projetil.pos_x;
-        bufferConsole[indice].Char.AsciiChar = projetil.sprite;
-        projetil.pos_y -= 1;
-
-        if (projetil.pos_y == 0)
-        {
-            jogador.disparo = 0;
-        }
-    }
 
     // Imprime o jogador na tela
     int indice = jogador.pos_y * LARGURA + jogador.pos_x;
     bufferConsole[indice].Char.AsciiChar = jogador.sprite;
 
-    int index = 0;
-
     for (int index = 0; index < TOTAL_INIMIGOS; index++)
     {
+        if (projetil.pos_y == inimigos[index].pos_y && projetil.pos_x == inimigos[index].pos_x && inimigos[index].vida > 0) {
+            jogador.disparo = 0;
+            inimigos[index].vida--;
+        }
 
         if (inimigos[index].vida != 0)
         {
@@ -355,6 +345,19 @@ void desenhar_tela()
                 // inimigos[index].pos_y++;
             }
             // inimigos[index].pos_x += deslocamento_inimigo;
+        }
+    }
+
+    if (jogador.disparo == 1)
+    {
+
+        int indice = projetil.pos_y * LARGURA + projetil.pos_x;
+        bufferConsole[indice].Char.AsciiChar = projetil.sprite;
+        projetil.pos_y -= 1;
+
+        if (projetil.pos_y == 0)
+        {
+            jogador.disparo = 0;
         }
     }
 
