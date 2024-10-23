@@ -8,7 +8,7 @@
 #define TOTAL_INIMIGOS_POR_FILA 15
 #define TOTAL_INIMIGOS 45
 #define ESPACO_VAZIO ' '
-#define ATRASO_TIQUE 150
+#define ATRASO_TIQUE 50
 
 // --------- Criar as estrutras -------- //
 typedef struct
@@ -393,7 +393,7 @@ void gerar_gameOver()
 {
     if (jogador.vidas == 0)
     {
-        jogo.game_over = 0;
+        jogo.game_over = 1;
     }
 }
 
@@ -412,14 +412,14 @@ int main()
 
     while (1)
     {
+        if (jogador.vidas == 0)
+        {
+            gerar_gameOver();
+            carregar_game_over();
+        }
         desenhar_tela();
         controlar_jogador();
         Sleep(ATRASO_TIQUE);
-    }
-
-    if (jogo.game_over == 1)
-    {
-        carregar_game_over;
     }
 
     return 0;
