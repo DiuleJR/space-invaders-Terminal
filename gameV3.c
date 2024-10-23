@@ -135,9 +135,53 @@ void carregar_menu_jogo() {
                 menu[3][14] = '>';
             }
 
-            escolha = ' ';
             
         }
+
+        else if (escolha == 's' || escolha == 'S') {
+            if (menu[3][13] == '>') {
+                menu[3][13] = ' ';
+                menu[3][14] = ' ';
+
+                menu[5][13] = '>';
+                menu[5][14] = '>';
+            }
+
+            else if (menu[5][13] == '>') {
+                menu[5][13] = ' ';
+                menu[5][14] = ' ';
+                
+                menu[7][13] = '>';
+                menu[7][14] = '>';
+            }
+
+            else if (menu[7][13] == '>') {
+                menu[7][13] = ' ';
+                menu[7][14] = ' ';
+                
+                menu[9][13] = '>';
+                menu[9][14] = '>';
+            }
+
+            else if (menu[9][13] == '>') {
+                menu[9][13] = ' ';
+                menu[9][14] = ' ';
+                
+                menu[3][13] = '>';
+                menu[3][14] = '>';
+            }
+            
+        }
+
+        else if (escolha == 'e' || escolha == 'E') {
+            if (menu[3][13] == '>') {
+                system("CLS");
+                break;
+
+            // CRIAR CONDICIONAIS PRAS OUTRAS OPÇÕES DO MENU
+        }
+
+        escolha = ' ';
         
     }
     
