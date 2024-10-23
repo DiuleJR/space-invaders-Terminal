@@ -12,7 +12,7 @@
 
 
 
-// Criar as estrutras
+// --------- Criar as estrutras -------- //
 typedef struct {
     int game_over;
     int score;
@@ -41,7 +41,7 @@ typedef struct {
     char sprite;
 } Inimigo;
 
-// Definir variáveis
+// --------- Definir Variáveis Necessárias -------- //
 Jogo jogo;
 Jogador jogador;
 Projetil projetil;
@@ -53,7 +53,7 @@ COORD tamanhoBuffer = {LARGURA, ALTURA};
 COORD posicaoCaractere = {0, 0};
 SMALL_RECT areaEscritaConsole = {0, 0, LARGURA - 1, ALTURA - 1};
 
-// Criar as funções
+// --------- Criar Funções -------- //
 void carregar_config_jogo() {
     jogo.game_over = 0;
     jogo.hi_score = 0;
