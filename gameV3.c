@@ -177,8 +177,9 @@ void carregar_menu_jogo() {
             if (menu[3][13] == '>') {
                 system("CLS");
                 break;
+            }
 
-            // CRIAR CONDICIONAIS PRAS OUTRAS OPÇÕES DO MENU
+            // 
         }
 
         escolha = ' ';
@@ -311,6 +312,15 @@ void desenhar_tela()
             }
 
             if (inimigos[index].pos_x == j && inimigos[index].pos_y == i) {
+                if (jogador.disparo == 1 & projetil.pos_x == inimigos[index].pos_x && projetil.pos_y == inimigos[index].pos_y && inimigos[index].vida > 0) {
+                    jogador.disparo = 0;
+                    inimigos[index].vida--;
+                }
+                
+                if (inimigos[index].vida == 0) {
+                    inimigos[index].sprite = ' ';
+                }
+
                 int indice = inimigos[index].pos_y * LARGURA + inimigos[index].pos_x;
                 bufferConsole[indice].Char.AsciiChar = inimigos[index].sprite;
 
@@ -321,6 +331,7 @@ void desenhar_tela()
                     }
                     // inimigos[index].pos_x += deslocamento_inimigo;
                 }
+                
 
                 index++;
 
