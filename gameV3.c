@@ -240,8 +240,8 @@ void carregar_config_inimigo()
     }
 }
 
-void carregar_game_over()
-{
+void carregar_game_over() {
+    char escolha = ' ';
     char menu_gameOver[12][43] = {
         "                 GAME OVER                 ",
         "+ - - - - - - - - - - - - - - - - - - - - +",
@@ -254,20 +254,84 @@ void carregar_game_over()
         "|              MENU                       |",
         "|     *                                   |",
         "|              QUIT                       |",
-        "+ - - - - - - - - - - - - - - - - - - - - +"};
+        "+ - - - - - - - - - - - - - - - - - - - - +"
+    };
 
-    while (1)
-    {
-        for (int i = 0; i < 12; i++)
-        {
-            for (int j = 0; j < 43; j++)
-            {
+    while(1) {
+        system("CLS");
+        for (int i = 0; i < 12; i++) {
+            for(int j = 0; j < 43; j++) {
                 printf("%c", menu_gameOver[i][j]);
             }
             printf("\n");
         }
-        scanf("%d");
+    
+        escolha = getch();
+        
+        if (escolha == 'w' || escolha == 'W') {
+            if (menu_gameOver[6][13] == '>'){
+                menu_gameOver[6][12] = ' ';
+                menu_gameOver[6][13] = ' ';
+
+                menu_gameOver[10][12] = '>';
+                menu_gameOver[10][13] = '>';
+            }
+
+            else if (menu_gameOver[10][13] == '>'){
+                menu_gameOver[10][12] = ' ';
+                menu_gameOver[10][13] = ' ';
+
+                menu_gameOver[8][12] = '>';
+                menu_gameOver[8][13] = '>';
+            }
+            else if (menu_gameOver[8][13] == '>'){
+                menu_gameOver[8][12] = ' ';
+                menu_gameOver[8][13] = ' ';
+
+                menu_gameOver[6][12] = '>';
+                menu_gameOver[6][13] = '>';
+            }
+        }
+
+        else if (escolha == 's' || escolha == 'S') {
+            if (menu_gameOver[6][13] == '>'){
+                menu_gameOver[6][12] = ' ';
+                menu_gameOver[6][13] = ' ';
+
+                menu_gameOver[8][12] = '>';
+                menu_gameOver[8][13] = '>';
+            }
+
+            else if (menu_gameOver[8][13] == '>'){
+                menu_gameOver[8][12] = ' ';
+                menu_gameOver[8][13] = ' ';
+
+                menu_gameOver[10][12] = '>';
+                menu_gameOver[10][13] = '>';
+            } 
+            
+            else if (menu_gameOver[10][13] == '>'){
+                menu_gameOver[10][12] = ' ';
+                menu_gameOver[10][13] = ' ';
+
+                menu_gameOver[6][12] = '>';
+                menu_gameOver[6][13] = '>';
+            }
+            
+        }
+
+        else if (escolha == 'e' || escolha == 'E') {
+            if (menu_gameOver[10][13] == '>') {
+                exit(1);
+            }
+
+            // 
+        }
+
+        escolha = ' ';
+        
     }
+
 }
 
 void controlar_jogador()
