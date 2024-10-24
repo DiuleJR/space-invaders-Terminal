@@ -196,7 +196,17 @@ void carregar_menu_jogo()
                 break;
             }
 
-            //
+            else if (menu[5][13] == '>'){
+                //chamar a função do rnaking aqui
+            }
+            
+            else if (menu[7][13] == '>') {
+                //chamar a função como jogar aqui
+            }
+
+            else if (menu[9][13] == '>'){
+                exit(1);
+            }
         }
 
         escolha = ' ';
