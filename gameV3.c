@@ -201,7 +201,9 @@ void carregar_menu_jogo()
             }
             
             else if (menu[7][13] == '>') {
-                //chamar a função como jogar aqui
+                system("CLS");
+                printf("\n\n 'A' e 'D' movimentacao do personagem, \n 'W' efetua o disparo, \n  Objetivo eliminar todas as naves inimigas \n\n");
+                escolha = getch();
             }
 
             else if (menu[9][13] == '>'){
