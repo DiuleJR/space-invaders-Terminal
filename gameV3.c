@@ -423,21 +423,19 @@ void atirar_projetil_inimigo()
     srand(time(NULL));
 
     int coluna_escolhida, inimigo_disparador = -1;
-    int tentativas_colunas = 0;
     int inimigo_x_inicial = (LARGURA - (TOTAL_INIMIGOS_POR_FILA - 1) * INTERVALO_INIMIGOS) / 2;
 
-    // Tenta encontrar um inimigo para disparar, com limite de tentativas
-    while (inimigo_disparador == -1 && tentativas_colunas < TOTAL_INIMIGOS_POR_FILA)
+    // Loop que irá selecionar um inimigo para disparar o próximo tiro.
+    // Para que seja escolhido sempre um inimigo que está na frente (evitando assim que o disparo atravesse algum inimigo) será escolhido uma coluna aleatóriamente e depois, começando da fileira da frente, irá verificar se o inimigo está vivo. Caso o inimigo esteja morto, irá verificar se o inimigo de trás (na mesma coluna) está vivo, e fará isso até verificar todas as fileiras da mesma coluna. Caso a coluna não tenha inimigos vivos, outra coluna aleatória será escolhida, e assim até que um inimigo seja escolhido.
+    while (inimigo_disparador == -1)
     {
         coluna_escolhida = rand() % TOTAL_INIMIGOS_POR_FILA;
         int coluna_x = (coluna_escolhida * INTERVALO_INIMIGOS) + inimigo_x_inicial;
 
-        // Verifica da última fileira (linha mais baixa) para a primeira
         for (int linha = FILEIRAS_DE_INIMIGOS - 1; linha >= 0; linha--)
         {
             for (int i = 0; i < TOTAL_INIMIGOS; i++)
             {
-                // Confirma se o inimigo está vivo e está na coluna e fileira correta
                 if (inimigos[i].vida > 0 && inimigos[i].pos_x == coluna_x && inimigos[i].pos_y == linha + 1)
                 {
                     inimigo_disparador = i;
@@ -447,7 +445,6 @@ void atirar_projetil_inimigo()
             if (inimigo_disparador != -1)
                 break;
         }
-        tentativas_colunas++;
     }
 
     if (inimigo_disparador != -1)
@@ -538,7 +535,7 @@ void desenhar_tela()
             if (projetilInimigo.pos_y == jogador.pos_y && projetilInimigo.pos_x == jogador.pos_x)
             {
                 disparoInimigo = 0;
-                jogador.vidas --;
+                jogador.vidas--;
             }
         }
         else
