@@ -534,6 +534,12 @@ void desenhar_tela()
             {
                 disparoInimigo = 0;
             }
+
+            if (projetilInimigo.pos_y == jogador.pos_y && projetilInimigo.pos_x == jogador.pos_x)
+            {
+                disparoInimigo = 0;
+                jogador.vidas --;
+            }
         }
         else
         {
