@@ -5,8 +5,10 @@
 #include <time.h>
 #define ALTURA 10
 #define LARGURA 39
+#define FILEIRAS_DE_INIMIGOS 3
 #define TOTAL_INIMIGOS_POR_FILA 15
 #define TOTAL_INIMIGOS 45
+#define INTERVALO_INIMIGOS 2
 #define ESPACO_VAZIO ' '
 #define ATRASO_TIQUE 50
 
@@ -31,6 +33,8 @@ typedef struct
 {
     int pos_x;
     int pos_y;
+    int velocidade;
+    int contador;
     char sprite;
 } Projetil;
 
@@ -47,6 +51,7 @@ typedef struct
 Jogo jogo;
 Jogador jogador;
 Projetil projetil;
+Projetil projetilInimigo;
 Inimigo inimigos[TOTAL_INIMIGOS];
 // ------------------- PARTE DO PROFESSOR K
 HANDLE console;
@@ -67,7 +72,17 @@ void carregar_config_projetil()
 {
     projetil.pos_x = 999;
     projetil.pos_y = 999;
+    projetil.velocidade = 2;
+    projetil.contador = 0;
     projetil.sprite = '^';
+}
+void carregar_config_projetil_inimigo()
+{
+    projetilInimigo.pos_x = 999;
+    projetilInimigo.pos_y = 999;
+    projetilInimigo.velocidade = 2;
+    projetilInimigo.contador = 0;
+    projetilInimigo.sprite = 'v';
 }
 
 void carregar_config_jogador()
@@ -196,17 +211,20 @@ void carregar_menu_jogo()
                 break;
             }
 
-            else if (menu[5][13] == '>'){
-                //chamar a função do rnaking aqui
+            else if (menu[5][13] == '>')
+            {
+                // chamar a função do rnaking aqui
             }
-            
-            else if (menu[7][13] == '>') {
+
+            else if (menu[7][13] == '>')
+            {
                 system("CLS");
                 printf("\n\n 'A' e 'D' movimentacao do personagem, \n 'W' efetua o disparo, \n  Objetivo eliminar todas as naves inimigas \n\n");
                 escolha = getch();
             }
 
-            else if (menu[9][13] == '>'){
+            else if (menu[9][13] == '>')
+            {
                 exit(1);
             }
         }
@@ -220,7 +238,7 @@ void carregar_config_inimigo()
 
     int filas_inimigos = 3;
 
-    int intervalo_inimigos = 2;
+    int intervalo_inimigos = INTERVALO_INIMIGOS;
 
     // Centraliza os inimigos
     int inimigo_x_inicial = (LARGURA - (TOTAL_INIMIGOS_POR_FILA - 1) * intervalo_inimigos) / 2;
@@ -242,7 +260,8 @@ void carregar_config_inimigo()
     }
 }
 
-void carregar_game_over() {
+void carregar_game_over()
+{
     char escolha = ' ';
     char menu_gameOver[12][43] = {
         "                 GAME OVER                 ",
@@ -256,22 +275,26 @@ void carregar_game_over() {
         "|              MENU                       |",
         "|     *                                   |",
         "|              QUIT                       |",
-        "+ - - - - - - - - - - - - - - - - - - - - +"
-    };
+        "+ - - - - - - - - - - - - - - - - - - - - +"};
 
-    while(1) {
+    while (1)
+    {
         system("CLS");
-        for (int i = 0; i < 12; i++) {
-            for(int j = 0; j < 43; j++) {
+        for (int i = 0; i < 12; i++)
+        {
+            for (int j = 0; j < 43; j++)
+            {
                 printf("%c", menu_gameOver[i][j]);
             }
             printf("\n");
         }
-    
+
         escolha = getch();
-        
-        if (escolha == 'w' || escolha == 'W') {
-            if (menu_gameOver[6][13] == '>'){
+
+        if (escolha == 'w' || escolha == 'W')
+        {
+            if (menu_gameOver[6][13] == '>')
+            {
                 menu_gameOver[6][12] = ' ';
                 menu_gameOver[6][13] = ' ';
 
@@ -279,14 +302,16 @@ void carregar_game_over() {
                 menu_gameOver[10][13] = '>';
             }
 
-            else if (menu_gameOver[10][13] == '>'){
+            else if (menu_gameOver[10][13] == '>')
+            {
                 menu_gameOver[10][12] = ' ';
                 menu_gameOver[10][13] = ' ';
 
                 menu_gameOver[8][12] = '>';
                 menu_gameOver[8][13] = '>';
             }
-            else if (menu_gameOver[8][13] == '>'){
+            else if (menu_gameOver[8][13] == '>')
+            {
                 menu_gameOver[8][12] = ' ';
                 menu_gameOver[8][13] = ' ';
 
@@ -295,8 +320,10 @@ void carregar_game_over() {
             }
         }
 
-        else if (escolha == 's' || escolha == 'S') {
-            if (menu_gameOver[6][13] == '>'){
+        else if (escolha == 's' || escolha == 'S')
+        {
+            if (menu_gameOver[6][13] == '>')
+            {
                 menu_gameOver[6][12] = ' ';
                 menu_gameOver[6][13] = ' ';
 
@@ -304,36 +331,37 @@ void carregar_game_over() {
                 menu_gameOver[8][13] = '>';
             }
 
-            else if (menu_gameOver[8][13] == '>'){
+            else if (menu_gameOver[8][13] == '>')
+            {
                 menu_gameOver[8][12] = ' ';
                 menu_gameOver[8][13] = ' ';
 
                 menu_gameOver[10][12] = '>';
                 menu_gameOver[10][13] = '>';
-            } 
-            
-            else if (menu_gameOver[10][13] == '>'){
+            }
+
+            else if (menu_gameOver[10][13] == '>')
+            {
                 menu_gameOver[10][12] = ' ';
                 menu_gameOver[10][13] = ' ';
 
                 menu_gameOver[6][12] = '>';
                 menu_gameOver[6][13] = '>';
             }
-            
         }
 
-        else if (escolha == 'e' || escolha == 'E') {
-            if (menu_gameOver[10][13] == '>') {
+        else if (escolha == 'e' || escolha == 'E')
+        {
+            if (menu_gameOver[10][13] == '>')
+            {
                 exit(1);
             }
 
-            // 
+            //
         }
 
         escolha = ' ';
-        
     }
-
 }
 
 void controlar_jogador()
@@ -385,6 +413,51 @@ void controlar_jogador()
 
 int intervalo_de_movimento = 0;
 int deslocamento_inimigo = 1;
+int disparoInimigo = 0;
+void atirar_projetil_inimigo()
+{
+    if (disparoInimigo == 1)
+        return;
+
+    // Serve para que possa ser criado números aleatórios
+    srand(time(NULL));
+
+    int coluna_escolhida, inimigo_disparador = -1;
+    int tentativas_colunas = 0;
+    int inimigo_x_inicial = (LARGURA - (TOTAL_INIMIGOS_POR_FILA - 1) * INTERVALO_INIMIGOS) / 2;
+
+    // Tenta encontrar um inimigo para disparar, com limite de tentativas
+    while (inimigo_disparador == -1 && tentativas_colunas < TOTAL_INIMIGOS_POR_FILA)
+    {
+        coluna_escolhida = rand() % TOTAL_INIMIGOS_POR_FILA;
+        int coluna_x = (coluna_escolhida * INTERVALO_INIMIGOS) + inimigo_x_inicial;
+
+        // Verifica da última fileira (linha mais baixa) para a primeira
+        for (int linha = FILEIRAS_DE_INIMIGOS - 1; linha >= 0; linha--)
+        {
+            for (int i = 0; i < TOTAL_INIMIGOS; i++)
+            {
+                // Confirma se o inimigo está vivo e está na coluna e fileira correta
+                if (inimigos[i].vida > 0 && inimigos[i].pos_x == coluna_x && inimigos[i].pos_y == linha + 1)
+                {
+                    inimigo_disparador = i;
+                    break;
+                }
+            }
+            if (inimigo_disparador != -1)
+                break;
+        }
+        tentativas_colunas++;
+    }
+
+    if (inimigo_disparador != -1)
+    {
+        projetilInimigo.pos_x = inimigos[inimigo_disparador].pos_x;
+        projetilInimigo.pos_y = inimigos[inimigo_disparador].pos_y + 1;
+        disparoInimigo = 1;
+    }
+}
+
 void desenhar_tela()
 {
     // Limpar o buffer de console preenchendo-o com espaços vazios
@@ -400,9 +473,11 @@ void desenhar_tela()
     int indice = jogador.pos_y * LARGURA + jogador.pos_x;
     bufferConsole[indice].Char.AsciiChar = jogador.sprite;
 
+    // Atualiza a posição dos inimigos
     for (int index = 0; index < TOTAL_INIMIGOS; index++)
     {
-        if (projetil.pos_y == inimigos[index].pos_y && projetil.pos_x == inimigos[index].pos_x && inimigos[index].vida > 0) {
+        if (projetil.pos_y == inimigos[index].pos_y && projetil.pos_x == inimigos[index].pos_x && inimigos[index].vida > 0)
+        {
             jogador.disparo = 0;
             inimigos[index].vida--;
         }
@@ -423,20 +498,54 @@ void desenhar_tela()
             // inimigos[index].pos_x += deslocamento_inimigo;
         }
     }
-
+    // Atualiza a posição do projetil do jogador
     if (jogador.disparo == 1)
     {
 
         int indice = projetil.pos_y * LARGURA + projetil.pos_x;
         bufferConsole[indice].Char.AsciiChar = projetil.sprite;
-        projetil.pos_y -= 1;
-
-        if (projetil.pos_y == 0)
+        if (projetil.contador >= projetil.velocidade)
         {
-            jogador.disparo = 0;
+            projetil.pos_y -= 1;
+            projetil.contador = 0;
+            if (projetil.pos_y == 0)
+            {
+                jogador.disparo = 0;
+            }
+        }
+        else
+        {
+            projetil.contador++;
         }
     }
 
+    // Atualiza a posição do projetil do Inimigo
+    if (disparoInimigo == 1)
+    {
+
+        int indice = projetilInimigo.pos_y * LARGURA + projetilInimigo.pos_x;
+        bufferConsole[indice].Char.AsciiChar = projetilInimigo.sprite;
+        if (projetilInimigo.contador >= projetilInimigo.velocidade)
+        {
+            projetilInimigo.pos_y += 1;
+            projetilInimigo.contador = 0;
+
+            if (projetilInimigo.pos_y == ALTURA - 1)
+            {
+                disparoInimigo = 0;
+            }
+        }
+        else
+        {
+            projetilInimigo.contador++;
+        }
+    }
+    else
+    {
+        atirar_projetil_inimigo();
+    }
+
+    // Cria as bordas do mapa
     for (int i = 0; i < ALTURA; i++)
     {
         for (int j = 0; j < LARGURA; j++)
@@ -482,6 +591,7 @@ int main()
     carregar_config_jogo();
     carregar_config_jogador();
     carregar_config_projetil();
+    carregar_config_projetil_inimigo();
     carregar_config_inimigo();
 
     console = GetStdHandle(STD_OUTPUT_HANDLE);
