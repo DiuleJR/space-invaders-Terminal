@@ -260,7 +260,7 @@ void carregar_config_inimigo()
     }
 }
 
-void carregar_game_over()
+int carregar_game_over()
 {
     char escolha = ' ';
     char menu_gameOver[12][43] = {
@@ -268,7 +268,7 @@ void carregar_game_over()
         "+ - - - - - - - - - - - - - - - - - - - - +",
         "|                                         |",
         "|     HIGH_SCORE:          SCORE:         |",
-        "|     XXX                  XXX            |",
+        "|     XXX                                 |",
         "|  *                                      |",
         "|           >> JOGAR NOVAMENTE         *  |",
         "|                                         |",
@@ -276,6 +276,32 @@ void carregar_game_over()
         "|     *                                   |",
         "|              QUIT                       |",
         "+ - - - - - - - - - - - - - - - - - - - - +"};
+
+    char caractere[4];
+
+    snprintf(caractere, sizeof(caractere), "%d", jogo.score);
+
+    if(jogo.score == 0){
+        menu_gameOver[4][27] = '0';
+        menu_gameOver[4][28] = '0';
+        menu_gameOver[4][29] = '0';
+        } 
+    else if(jogo.score < 10){
+        menu_gameOver[4][29] = caractere[0];
+        menu_gameOver[4][28] = '0';
+        menu_gameOver[4][27] = '0';
+    }
+    else if(jogo.score >= 10 && jogo.score < 100){
+        menu_gameOver[4][29] = caractere[0];
+        menu_gameOver[4][28] = caractere[1];
+        menu_gameOver[4][27] = '0';
+    }
+
+    else if(jogo.score >=100 && jogo.score < 1000){
+        menu_gameOver[4][29] = caractere[0];
+        menu_gameOver[4][28] = caractere[1];
+        menu_gameOver[4][27] = caractere[2]; 
+    }
 
     while (1)
     {
@@ -292,7 +318,8 @@ void carregar_game_over()
         escolha = getch();
 
         if (escolha == 'w' || escolha == 'W')
-        {
+        {   
+            // Jogar novamente
             if (menu_gameOver[6][13] == '>')
             {
                 menu_gameOver[6][12] = ' ';
@@ -302,6 +329,7 @@ void carregar_game_over()
                 menu_gameOver[10][13] = '>';
             }
 
+            // menu
             else if (menu_gameOver[10][13] == '>')
             {
                 menu_gameOver[10][12] = ' ';
@@ -310,6 +338,8 @@ void carregar_game_over()
                 menu_gameOver[8][12] = '>';
                 menu_gameOver[8][13] = '>';
             }
+
+            // quit
             else if (menu_gameOver[8][13] == '>')
             {
                 menu_gameOver[8][12] = ' ';
@@ -321,7 +351,8 @@ void carregar_game_over()
         }
 
         else if (escolha == 's' || escolha == 'S')
-        {
+        {   
+            // Jogar novamente
             if (menu_gameOver[6][13] == '>')
             {
                 menu_gameOver[6][12] = ' ';
@@ -331,6 +362,7 @@ void carregar_game_over()
                 menu_gameOver[8][13] = '>';
             }
 
+            // MEU
             else if (menu_gameOver[8][13] == '>')
             {
                 menu_gameOver[8][12] = ' ';
@@ -340,6 +372,7 @@ void carregar_game_over()
                 menu_gameOver[10][13] = '>';
             }
 
+            // QUIT
             else if (menu_gameOver[10][13] == '>')
             {
                 menu_gameOver[10][12] = ' ';
@@ -351,11 +384,26 @@ void carregar_game_over()
         }
 
         else if (escolha == 'e' || escolha == 'E')
-        {
-            if (menu_gameOver[10][13] == '>')
-            {
+        {   
+            // SELECIONANDO QUIT
+            if (menu_gameOver[10][13] == '>') {
                 exit(1);
             }
+
+            // SELECIONAR JOGAR NOVAMENTE
+            else if (menu_gameOver[6][13] == '>') {
+                jogo.game_over = 0;
+                return 0;
+            }
+
+            // SELECIONAR MENU
+            else if (menu_gameOver[8][13] == '>') {
+                jogo.game_over = 0;
+                return 1;
+
+            }
+
+
 
             //
         }
@@ -477,6 +525,11 @@ void desenhar_tela()
         {
             jogador.disparo = 0;
             inimigos[index].vida--;
+            jogo.score += 1;
+            
+            if (jogo.score > jogo.hi_score) {
+                jogo.hi_score = jogo.score;
+            }
         }
 
         if (inimigos[index].vida != 0)
@@ -588,27 +641,44 @@ void gerar_gameOver()
 // jogar tudo na função principal
 
 int main()
-{
-
-    carregar_menu_jogo();
-    carregar_config_jogo();
-    carregar_config_jogador();
-    carregar_config_projetil();
-    carregar_config_projetil_inimigo();
-    carregar_config_inimigo();
-
+{   
     console = GetStdHandle(STD_OUTPUT_HANDLE);
+    carregar_config_jogo();
+    carregar_config_projetil_inimigo();
 
-    while (1)
-    {
-        if (jogador.vidas == 0)
+    while(1) {
+        carregar_menu_jogo();
+        carregar_config_jogador();
+        carregar_config_projetil();
+        carregar_config_inimigo();
+
+
+        while (1)
         {
-            gerar_gameOver();
-            carregar_game_over();
+            if (jogador.vidas == 0)
+            {
+                gerar_gameOver();
+                int seila = carregar_game_over();
+
+                if (seila == 0) {
+                    system("CLS");
+                    carregar_config_inimigo();
+                    carregar_config_jogador();
+                    carregar_config_projetil();
+    
+                    jogo.score = 0;
+                }
+
+                else if (seila == 1) {
+                    jogo.score = 0;
+                    
+                    break;
+                }
+            }
+            desenhar_tela();
+            controlar_jogador();
+            Sleep(ATRASO_TIQUE);
         }
-        desenhar_tela();
-        controlar_jogador();
-        Sleep(ATRASO_TIQUE);
     }
 
     return 0;
