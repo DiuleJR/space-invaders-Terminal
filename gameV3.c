@@ -283,6 +283,7 @@ int carregar_game_over()
     snprintf(caractere, sizeof(caractere), "%d", jogo.score);
     snprintf(hi_score, sizeof(hi_score), "%d", jogo.hi_score);
 
+    //FUNÇÕES PARA O HI_SCORE
     if(jogo.hi_score == 0){
         menu_gameOver[4][6] = '0';
         menu_gameOver[4][7] = '0';
@@ -305,6 +306,7 @@ int carregar_game_over()
         menu_gameOver[4][6] = hi_score[2]; 
     }
 
+    //FUNÇÕES PARA O SCORE
     if(jogo.score == 0){
         menu_gameOver[4][27] = '0';
         menu_gameOver[4][28] = '0';
