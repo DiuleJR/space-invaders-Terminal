@@ -488,6 +488,7 @@ void controlar_jogador()
 int intervalo_de_movimento = 0;
 int deslocamento_inimigo = 1;
 int disparoInimigo = 0;
+
 void atirar_projetil_inimigo()
 {
     if (disparoInimigo == 1)
@@ -552,6 +553,8 @@ void desenhar_tela()
             jogador.disparo = 0;
             inimigos[index].vida--;
             jogo.score += 1;
+            projetil.pos_x = 999;
+            projetil.pos_y = 999;
             
             if (jogo.score > jogo.hi_score) {
                 jogo.hi_score = jogo.score;
@@ -564,14 +567,24 @@ void desenhar_tela()
             bufferConsole[indice].Char.AsciiChar = inimigos[index].sprite;
         }
 
-        if (intervalo_de_movimento == 5)
+        if (intervalo_de_movimento >= 7)
         {
-            if (inimigos[TOTAL_INIMIGOS - 1].pos_x >= LARGURA - 2)
-            {
-                deslocamento_inimigo *= -1;
-                // inimigos[index].pos_y++;
+
+            if (inimigos[TOTAL_INIMIGOS - 1].pos_y == jogador.pos_y - 1) {
+                jogador.vidas = 0;
+                break;
             }
-            // inimigos[index].pos_x += deslocamento_inimigo;
+            if (inimigos[TOTAL_INIMIGOS - 1].pos_x == LARGURA - 2)
+            {
+                inimigos[index].pos_y++;
+            }
+
+            if (inimigos[0].pos_x == 1) {
+                inimigos[index].pos_y++;
+            }
+
+            inimigos[index].pos_x += deslocamento_inimigo;
+    
         }
     }
     // Atualiza a posição do projetil do jogador
@@ -644,15 +657,23 @@ void desenhar_tela()
             }
         }
     }
-    if (intervalo_de_movimento == 5)
+
+    WriteConsoleOutputA(console, bufferConsole, tamanhoBuffer, posicaoCaractere, &areaEscritaConsole);
+    if (intervalo_de_movimento >= 7)
     {
+        if (inimigos[TOTAL_INIMIGOS - 1].pos_x >= LARGURA - 2) {
+            deslocamento_inimigo = deslocamento_inimigo * -1;
+        }
+        else if (inimigos[0].pos_x <= 1) {
+            deslocamento_inimigo = deslocamento_inimigo * -1;
+        }
         intervalo_de_movimento = 0;
     }
     else
     {
         intervalo_de_movimento++;
+        //printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n%d -----", intervalo_de_movimento);
     }
-    WriteConsoleOutputA(console, bufferConsole, tamanhoBuffer, posicaoCaractere, &areaEscritaConsole);
 }
 
 // função que vai gerar... game over
@@ -694,7 +715,7 @@ int main()
     
                     jogo.score = 0;
                 }
-
+                
                 else if (seila == 1) {
                     jogo.score = 0;
                     
