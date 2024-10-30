@@ -268,7 +268,7 @@ int carregar_game_over()
         "+ - - - - - - - - - - - - - - - - - - - - +",
         "|                                         |",
         "|     HIGH_SCORE:          SCORE:         |",
-        "|     XXX                                 |",
+        "|                                         |",
         "|  *                                      |",
         "|           >> JOGAR NOVAMENTE         *  |",
         "|                                         |",
@@ -278,8 +278,32 @@ int carregar_game_over()
         "+ - - - - - - - - - - - - - - - - - - - - +"};
 
     char caractere[4];
+    char hi_score[4];
 
     snprintf(caractere, sizeof(caractere), "%d", jogo.score);
+    snprintf(hi_score, sizeof(hi_score), "%d", jogo.hi_score);
+
+    if(jogo.hi_score == 0){
+        menu_gameOver[4][6] = '0';
+        menu_gameOver[4][7] = '0';
+        menu_gameOver[4][8] = '0';
+        } 
+    else if(jogo.hi_score < 10){
+        menu_gameOver[4][8] = hi_score[0];
+        menu_gameOver[4][7] = '0';
+        menu_gameOver[4][6] = '0';
+    }
+    else if(jogo.hi_score >= 10 && jogo.hi_score < 100){
+        menu_gameOver[4][8] = hi_score[0];
+        menu_gameOver[4][7] = hi_score[1];
+        menu_gameOver[4][6] = '0';
+    }
+
+    else if(jogo.hi_score >=100 && jogo.hi_score < 1000){
+        menu_gameOver[4][8] = hi_score[0];
+        menu_gameOver[4][7] = hi_score[1];
+        menu_gameOver[4][6] = hi_score[2]; 
+    }
 
     if(jogo.score == 0){
         menu_gameOver[4][27] = '0';
