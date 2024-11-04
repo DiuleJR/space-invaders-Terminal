@@ -219,7 +219,48 @@ void carregar_menu_jogo()
             else if (menu[7][13] == '>')
             {
                 system("CLS");
-                printf("\n\n 'A' e 'D' movimentacao do personagem, \n 'W' efetua o disparo, \n  Objetivo eliminar todas as naves inimigas \n\n");
+                char comoJogar[27][43] = {
+                    "               SPACE_INVADERS              ",
+                    "+ - - - - - - - - - - - - - - - - - - - - +",
+                    "|       Movimentacao do Personagem    +   |",
+                    "|            *                            |",
+                    "|     Tecla 'A'      e      Tecla 'D'     |",
+                    "| move para esquerda |  move para direita |",
+                    "|                    :                    |",
+                    "|     Tecla 'W'      |  *    Tecla 'P'    |",
+                    "|  efetua o disparo  :    sai da partida  |",
+                    "|                                     *   |",
+                    "| +  Caracteristicas da Personagem/Jogo   |",
+                    "|                              *          |",
+                    "|   *          Vida no Jogo               |",
+                    "|                                         |",
+                    "|    Nave aliada     |    Nave inimiga    |",
+                    "|    VIDAS = 3       :  * VIDA = 1        |",
+                    "|    *                                    |",
+                    "|   Cada disparo acertado (tanto aliado   |",
+                    "|    quanto inimigo) retiram 1 de vida    |",
+                    "|                                  +      |",
+                    "|            Objetivo do Jogo             |",
+                    "|  *                                      |",
+                    "|  Eliminar todas as naves inimigas sem   |",
+                    "|     deixarem elas chegarem perto da     |",
+                    "|          sua nave ou que elas   *       |",
+                    "|       retirem todas as suas vidas       |",
+                    "+ - - - - - - - - - - - - - - - - - - - - +"}; 
+                int c = 0;
+                while (c < 25)
+                {
+                    system("CLS");
+                    for (int x = 0; x < 27; x++)
+                    {
+                        for (int y = 0; y < 43; y++)
+                        {
+                            printf("%c", comoJogar[x][y]);
+                        }
+                        printf("\n");
+                        c++;
+                    }
+                }
                 escolha = getch();
             }
 
@@ -507,8 +548,15 @@ void atirar_projetil_inimigo()
     int tentativas = 0; // Contador de tentativas para evitar loop infinito
 
     // Loop que irá selecionar um inimigo para disparar o próximo tiro.
-    // Para que seja escolhido sempre um inimigo que está na frente (evitando assim que o disparo atravesse algum inimigo) será escolhido uma coluna aleatóriamente e depois, começando da fileira da frente, irá verificar se o inimigo está vivo. Caso o inimigo esteja morto, irá verificar se o inimigo de trás (na mesma coluna) está vivo, e fará isso até verificar todas as fileiras da mesma coluna. Caso a coluna não tenha inimigos vivos, outra coluna aleatória será escolhida, e assim até que um inimigo seja escolhido.
-    while (inimigo_disparador == -1 && tentativas < 5)
+    /* Para que seja escolhido sempre um inimigo que está na frente 
+    (evitando assim que o disparo atravesse algum inimigo) será escolhido uma coluna aleatóriamente e depois,
+    começando da fileira da frente, irá verificar se o inimigo está vivo. 
+    Caso o inimigo esteja morto, irá verificar se o inimigo de trás (na mesma coluna) está vivo,
+    e fará isso até verificar todas as fileiras da mesma coluna. 
+    Caso a coluna não tenha inimigos vivos, outra coluna aleatória será escolhida,
+    e assim até que um inimigo seja escolhido.
+    */
+   while (inimigo_disparador == -1 && tentativas < 5)
     {
         coluna_escolhida = rand() % TOTAL_INIMIGOS_POR_FILA;
         int coluna_x = (coluna_escolhida * INTERVALO_INIMIGOS) + inimigo_x_inicial;
