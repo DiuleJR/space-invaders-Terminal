@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <time.h>
-#define ALTURA 10
-#define LARGURA 39
+#define ALTURA 30
+#define LARGURA 99
 #define FILEIRAS_DE_INIMIGOS 3
 #define TOTAL_INIMIGOS_POR_FILA 15
 #define TOTAL_INIMIGOS 45
@@ -72,7 +72,7 @@ void carregar_config_projetil()
 {
     projetil.pos_x = 999;
     projetil.pos_y = 999;
-    projetil.velocidade = 2;
+    projetil.velocidade = 1;
     projetil.contador = 0;
     projetil.sprite = '^';
 }
@@ -80,7 +80,7 @@ void carregar_config_projetil_inimigo()
 {
     projetilInimigo.pos_x = 999;
     projetilInimigo.pos_y = 999;
-    projetilInimigo.velocidade = 2;
+    projetilInimigo.velocidade = 1;
     projetilInimigo.contador = 0;
     projetilInimigo.sprite = 'v';
 }
@@ -242,7 +242,7 @@ void carregar_config_inimigo()
 
     // Centraliza os inimigos
     int inimigo_x_inicial = (LARGURA - (TOTAL_INIMIGOS_POR_FILA - 1) * intervalo_inimigos) / 2;
-    int inimigo_y_inicial = 1;
+    int inimigo_y_inicial = 3;
 
     int inimigo_contador = 0;
     for (int i = 0; i < filas_inimigos; i++)
@@ -283,50 +283,58 @@ int carregar_game_over()
     snprintf(caractere, sizeof(caractere), "%d", jogo.score);
     snprintf(hi_score, sizeof(hi_score), "%d", jogo.hi_score);
 
-    //FUNÇÕES PARA O HI_SCORE
-    if(jogo.hi_score == 0){
+    // FUNÇÕES PARA O HI_SCORE
+    if (jogo.hi_score == 0)
+    {
         menu_gameOver[4][6] = '0';
         menu_gameOver[4][7] = '0';
         menu_gameOver[4][8] = '0';
-        } 
-    else if(jogo.hi_score < 10){
+    }
+    else if (jogo.hi_score < 10)
+    {
         menu_gameOver[4][8] = hi_score[0];
         menu_gameOver[4][7] = '0';
         menu_gameOver[4][6] = '0';
     }
-    else if(jogo.hi_score >= 10 && jogo.hi_score < 100){
+    else if (jogo.hi_score >= 10 && jogo.hi_score < 100)
+    {
         menu_gameOver[4][8] = hi_score[0];
         menu_gameOver[4][7] = hi_score[1];
         menu_gameOver[4][6] = '0';
     }
 
-    else if(jogo.hi_score >=100 && jogo.hi_score < 1000){
+    else if (jogo.hi_score >= 100 && jogo.hi_score < 1000)
+    {
         menu_gameOver[4][8] = hi_score[0];
         menu_gameOver[4][7] = hi_score[1];
-        menu_gameOver[4][6] = hi_score[2]; 
+        menu_gameOver[4][6] = hi_score[2];
     }
 
-    //FUNÇÕES PARA O SCORE
-    if(jogo.score == 0){
+    // FUNÇÕES PARA O SCORE
+    if (jogo.score == 0)
+    {
         menu_gameOver[4][27] = '0';
         menu_gameOver[4][28] = '0';
         menu_gameOver[4][29] = '0';
-        } 
-    else if(jogo.score < 10){
+    }
+    else if (jogo.score < 10)
+    {
         menu_gameOver[4][29] = caractere[0];
         menu_gameOver[4][28] = '0';
         menu_gameOver[4][27] = '0';
     }
-    else if(jogo.score >= 10 && jogo.score < 100){
+    else if (jogo.score >= 10 && jogo.score < 100)
+    {
         menu_gameOver[4][29] = caractere[0];
         menu_gameOver[4][28] = caractere[1];
         menu_gameOver[4][27] = '0';
     }
 
-    else if(jogo.score >=100 && jogo.score < 1000){
+    else if (jogo.score >= 100 && jogo.score < 1000)
+    {
         menu_gameOver[4][29] = caractere[0];
         menu_gameOver[4][28] = caractere[1];
-        menu_gameOver[4][27] = caractere[2]; 
+        menu_gameOver[4][27] = caractere[2];
     }
 
     while (1)
@@ -344,7 +352,7 @@ int carregar_game_over()
         escolha = getch();
 
         if (escolha == 'w' || escolha == 'W')
-        {   
+        {
             // Jogar novamente
             if (menu_gameOver[6][13] == '>')
             {
@@ -377,7 +385,7 @@ int carregar_game_over()
         }
 
         else if (escolha == 's' || escolha == 'S')
-        {   
+        {
             // Jogar novamente
             if (menu_gameOver[6][13] == '>')
             {
@@ -410,26 +418,26 @@ int carregar_game_over()
         }
 
         else if (escolha == 'e' || escolha == 'E')
-        {   
+        {
             // SELECIONANDO QUIT
-            if (menu_gameOver[10][13] == '>') {
+            if (menu_gameOver[10][13] == '>')
+            {
                 exit(1);
             }
 
             // SELECIONAR JOGAR NOVAMENTE
-            else if (menu_gameOver[6][13] == '>') {
+            else if (menu_gameOver[6][13] == '>')
+            {
                 jogo.game_over = 0;
                 return 0;
             }
 
             // SELECIONAR MENU
-            else if (menu_gameOver[8][13] == '>') {
+            else if (menu_gameOver[8][13] == '>')
+            {
                 jogo.game_over = 0;
                 return 1;
-
             }
-
-
 
             //
         }
@@ -488,40 +496,51 @@ void controlar_jogador()
 int intervalo_de_movimento = 0;
 int deslocamento_inimigo = 1;
 int disparoInimigo = 0;
-
 void atirar_projetil_inimigo()
 {
     if (disparoInimigo == 1)
         return;
 
-    // Serve para que possa ser criado números aleatórios
-    srand(time(NULL));
-
     int coluna_escolhida, inimigo_disparador = -1;
     int inimigo_x_inicial = (LARGURA - (TOTAL_INIMIGOS_POR_FILA - 1) * INTERVALO_INIMIGOS) / 2;
 
+    int tentativas = 0; // Contador de tentativas para evitar loop infinito
+
     // Loop que irá selecionar um inimigo para disparar o próximo tiro.
     // Para que seja escolhido sempre um inimigo que está na frente (evitando assim que o disparo atravesse algum inimigo) será escolhido uma coluna aleatóriamente e depois, começando da fileira da frente, irá verificar se o inimigo está vivo. Caso o inimigo esteja morto, irá verificar se o inimigo de trás (na mesma coluna) está vivo, e fará isso até verificar todas as fileiras da mesma coluna. Caso a coluna não tenha inimigos vivos, outra coluna aleatória será escolhida, e assim até que um inimigo seja escolhido.
-    while (inimigo_disparador == -1)
+    while (inimigo_disparador == -1 && tentativas < 5)
     {
         coluna_escolhida = rand() % TOTAL_INIMIGOS_POR_FILA;
         int coluna_x = (coluna_escolhida * INTERVALO_INIMIGOS) + inimigo_x_inicial;
 
-        for (int linha = FILEIRAS_DE_INIMIGOS - 1; linha >= 0; linha--)
+        for (int linha = 0; linha < FILEIRAS_DE_INIMIGOS; linha++)
         {
-            for (int i = 0; i < TOTAL_INIMIGOS; i++)
+            // Aqui, calculamos o índice do inimigo com a lógica correta
+            int inimigo_index = (FILEIRAS_DE_INIMIGOS - 1 - linha) * TOTAL_INIMIGOS_POR_FILA + coluna_escolhida;
+
+            if (inimigos[inimigo_index].vida > 0)
             {
-                if (inimigos[i].vida > 0 && inimigos[i].pos_x == coluna_x && inimigos[i].pos_y == linha + 1)
-                {
-                    inimigo_disparador = i;
-                    break;
-                }
-            }
-            if (inimigo_disparador != -1)
+                inimigo_disparador = inimigo_index;
                 break;
+            }
+        }
+        tentativas++;
+    }
+
+    // Se não encontrou um inimigo, tenta sequencialmente
+    if (inimigo_disparador == -1)
+    {
+        for (int i = 0; i < TOTAL_INIMIGOS; i++)
+        {
+            if (inimigos[i].vida > 0)
+            {
+                inimigo_disparador = i;
+                break;
+            }
         }
     }
 
+    // Se encontrou um inimigo para disparar
     if (inimigo_disparador != -1)
     {
         projetilInimigo.pos_x = inimigos[inimigo_disparador].pos_x;
@@ -541,6 +560,24 @@ void desenhar_tela()
         bufferConsole[i].Attributes = FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED; // Define cor padrão
     }
 
+    // Exibir Score e Vidas no topo da tela
+    int margem_do_texto = 5; // Valor usado para dar espaçamento do texto
+    char scoreTexto[30];
+    sprintf(scoreTexto, "SCORE: %d", jogo.score);
+    for (int i = 0; scoreTexto[i] != '\0'; ++i)
+    {
+        int indice = 2 * LARGURA + (i + margem_do_texto);
+        bufferConsole[indice].Char.AsciiChar = scoreTexto[i];
+    }
+
+    char vidasTexto[20];
+    sprintf(vidasTexto, "LIVES: %d", jogador.vidas);
+    int posInicioVidas = (LARGURA - margem_do_texto) - strlen(vidasTexto);
+    for (int i = 0; vidasTexto[i] != '\0'; ++i)
+    {
+        int indice = 2 * LARGURA + (posInicioVidas + i);
+        bufferConsole[indice].Char.AsciiChar = vidasTexto[i];
+    }
     // Imprime o jogador na tela
     int indice = jogador.pos_y * LARGURA + jogador.pos_x;
     bufferConsole[indice].Char.AsciiChar = jogador.sprite;
@@ -555,8 +592,9 @@ void desenhar_tela()
             jogo.score += 1;
             projetil.pos_x = 999;
             projetil.pos_y = 999;
-            
-            if (jogo.score > jogo.hi_score) {
+
+            if (jogo.score > jogo.hi_score)
+            {
                 jogo.hi_score = jogo.score;
             }
         }
@@ -570,7 +608,8 @@ void desenhar_tela()
         if (intervalo_de_movimento >= 7)
         {
 
-            if (inimigos[TOTAL_INIMIGOS - 1].pos_y == jogador.pos_y - 1) {
+            if (inimigos[TOTAL_INIMIGOS - 1].pos_y == jogador.pos_y - 1)
+            {
                 jogador.vidas = 0;
                 break;
             }
@@ -579,12 +618,12 @@ void desenhar_tela()
                 inimigos[index].pos_y++;
             }
 
-            if (inimigos[0].pos_x == 1) {
+            if (inimigos[0].pos_x == 1)
+            {
                 inimigos[index].pos_y++;
             }
 
             inimigos[index].pos_x += deslocamento_inimigo;
-    
         }
     }
     // Atualiza a posição do projetil do jogador
@@ -611,20 +650,20 @@ void desenhar_tela()
     // Atualiza a posição do projetil do Inimigo
     if (disparoInimigo == 1)
     {
-
         int indice = projetilInimigo.pos_y * LARGURA + projetilInimigo.pos_x;
         bufferConsole[indice].Char.AsciiChar = projetilInimigo.sprite;
+
         if (projetilInimigo.contador >= projetilInimigo.velocidade)
         {
             projetilInimigo.pos_y += 1;
             projetilInimigo.contador = 0;
 
-            if (projetilInimigo.pos_y == ALTURA - 1)
+            if (projetilInimigo.pos_y >= ALTURA - 2)
             {
                 disparoInimigo = 0;
             }
 
-            if (projetilInimigo.pos_y == jogador.pos_y && projetilInimigo.pos_x == jogador.pos_x)
+            else if (projetilInimigo.pos_y == jogador.pos_y && projetilInimigo.pos_x == jogador.pos_x)
             {
                 disparoInimigo = 0;
                 jogador.vidas--;
@@ -637,6 +676,7 @@ void desenhar_tela()
     }
     else
     {
+
         atirar_projetil_inimigo();
     }
 
@@ -661,10 +701,12 @@ void desenhar_tela()
     WriteConsoleOutputA(console, bufferConsole, tamanhoBuffer, posicaoCaractere, &areaEscritaConsole);
     if (intervalo_de_movimento >= 7)
     {
-        if (inimigos[TOTAL_INIMIGOS - 1].pos_x >= LARGURA - 2) {
+        if (inimigos[TOTAL_INIMIGOS - 1].pos_x >= LARGURA - 2)
+        {
             deslocamento_inimigo = deslocamento_inimigo * -1;
         }
-        else if (inimigos[0].pos_x <= 1) {
+        else if (inimigos[0].pos_x <= 1)
+        {
             deslocamento_inimigo = deslocamento_inimigo * -1;
         }
         intervalo_de_movimento = 0;
@@ -672,7 +714,6 @@ void desenhar_tela()
     else
     {
         intervalo_de_movimento++;
-        //printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n%d -----", intervalo_de_movimento);
     }
 }
 
@@ -688,37 +729,41 @@ void gerar_gameOver()
 // jogar tudo na função principal
 
 int main()
-{   
+{
     console = GetStdHandle(STD_OUTPUT_HANDLE);
     carregar_config_jogo();
     carregar_config_projetil_inimigo();
 
-    while(1) {
+    // Serve para que possa ser criado números aleatórios, que são usados para selecionar qual inimigo irá atirar
+    srand(time(NULL));
+    while (1)
+    {
         carregar_menu_jogo();
         carregar_config_jogador();
         carregar_config_projetil();
         carregar_config_inimigo();
 
-
         while (1)
         {
-            if (jogador.vidas == 0)
+            if (jogador.vidas == 0 || jogo.score == TOTAL_INIMIGOS)
             {
                 gerar_gameOver();
                 int seila = carregar_game_over();
 
-                if (seila == 0) {
+                if (seila == 0)
+                {
                     system("CLS");
                     carregar_config_inimigo();
                     carregar_config_jogador();
                     carregar_config_projetil();
-    
+
                     jogo.score = 0;
                 }
-                
-                else if (seila == 1) {
+
+                else if (seila == 1)
+                {
                     jogo.score = 0;
-                    
+
                     break;
                 }
             }
