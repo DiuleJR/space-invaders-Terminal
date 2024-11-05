@@ -1,8 +1,11 @@
+// -- inclusão das bibliotecas a serem utilizadas -- //
 #include <stdio.h>
-#include <conio.h>
-#include <stdlib.h>
-#include <windows.h>
-#include <time.h>
+#include <conio.h> // --> funções para manipulação de entrada/saída do console (como ler teclas pressionadas diretamente do teclado).
+#include <stdlib.h> // --> funções úteis para a alocação de memória, controle de processos, conversão de tipos e outras operações gerais.
+#include <windows.h> // --> desenvolvimento de aplicações que interagem com o sistema operacional Windows.
+#include <time.h> // --> utiliza mecanismos para usar o tempo local do dispositivo
+
+// ---- definição das constantes do codigo ---- //
 #define ALTURA 30
 #define LARGURA 99
 #define FILEIRAS_DE_INIMIGOS 3
@@ -13,7 +16,7 @@
 #define ATRASO_TIQUE 50
 
 // --------- Criar as estrutras -------- //
-typedef struct
+typedef struct // --> estruturas para criar e manipular variáveis de maneira mais concisa, tornando o código mais legível e fácil de usar.
 {
     int game_over;
     int score;
@@ -53,12 +56,13 @@ Jogador jogador;
 Projetil projetil;
 Projetil projetilInimigo;
 Inimigo inimigos[TOTAL_INIMIGOS];
-// ------------------- PARTE DO PROFESSOR K
-HANDLE console;
-CHAR_INFO bufferConsole[LARGURA * ALTURA];
-COORD tamanhoBuffer = {LARGURA, ALTURA};
+// ----------- PARTE DO PROFESSOR --------------- //
+//Buffer: Um array de caracteres onde a string formatada será armazenada//
+HANDLE console; // --> ex.: leitura de entrada diretamente do console, tem como objetivo fazer referência a objetos do sistema, como janelas, arquivos, e consoles
+CHAR_INFO bufferConsole[LARGURA * ALTURA]; // --> manipulação de consoles, especificamente para operações de leitura e escrita em buffers de console
+COORD tamanhoBuffer = {LARGURA, ALTURA}; // --> representar coordenadas de console, especialmente quando você precisa especificar uma posição em uma tela de console.
 COORD posicaoCaractere = {0, 0};
-SMALL_RECT areaEscritaConsole = {0, 0, LARGURA - 1, ALTURA - 1};
+SMALL_RECT areaEscritaConsole = {0, 0, LARGURA - 1, ALTURA - 1}; // --> definir e manipular pequenas áreas retangulares, especialmente na programação de consoles.
 
 // --------- Criar Funções -------- //
 void carregar_config_jogo()
@@ -113,7 +117,7 @@ void carregar_menu_jogo()
 
     while (1)
     {
-        system("CLS");
+        system("CLS"); // --> limpar o terminal, para retirar residuos desnecessarios
         for (int i = 0; i < 11; i++)
         {
             for (int j = 0; j < 43; j++)
@@ -123,7 +127,7 @@ void carregar_menu_jogo()
             printf("\n");
         }
 
-        escolha = getch();
+        escolha = getch(); // --> 'lê um caractere diretamente do console sem a necessidade de usar o enter'
 
         if (escolha == 'w' || escolha == 'W')
         {
@@ -266,7 +270,7 @@ void carregar_menu_jogo()
 
             else if (menu[9][13] == '>')
             {
-                exit(1);
+                exit(1); // --> função o qual encerra o programa;
             }
         }
 
@@ -279,12 +283,12 @@ void carregar_config_inimigo()
 
     int filas_inimigos = 3;
 
-    int intervalo_inimigos = INTERVALO_INIMIGOS;
+    int intervalo_inimigos = INTERVALO_INIMIGOS; // = 2;
 
     // Centraliza os inimigos
-    int inimigo_x_inicial = (LARGURA - (TOTAL_INIMIGOS_POR_FILA - 1) * intervalo_inimigos) / 2;
+    int inimigo_x_inicial = (LARGURA - (TOTAL_INIMIGOS_POR_FILA - 1) * intervalo_inimigos) / 2; // expressão matematica para centralizar os inimigos
     int inimigo_y_inicial = 3;
-
+    // colocar os inimigos e tmb vericação dos status de cada
     int inimigo_contador = 0;
     for (int i = 0; i < filas_inimigos; i++)
     {
@@ -321,7 +325,7 @@ int carregar_game_over()
     char caractere[4];
     char hi_score[4];
 
-    snprintf(caractere, sizeof(caractere), "%d", jogo.score);
+    snprintf(caractere, sizeof(caractere), "%d", jogo.score); // --> usada para formatar uma string e armazená-la em um buffer, garantindo que a escrita não ultrapasse o tamanho do buffer
     snprintf(hi_score, sizeof(hi_score), "%d", jogo.hi_score);
 
     // FUNÇÕES PARA O HI_SCORE
@@ -492,7 +496,7 @@ void controlar_jogador()
     char keyPress;
 
     // Verifica se uma tecla foi pressionada
-    if (kbhit())
+    if (kbhit()) // --> detectar se uma tecla foi pressionada
     {
         keyPress = getch();
     }
@@ -534,6 +538,7 @@ void controlar_jogador()
     }
 }
 
+// ---------- função para o disparo do inimigo ------------ //
 int intervalo_de_movimento = 0;
 int deslocamento_inimigo = 1;
 int disparoInimigo = 0;
@@ -608,19 +613,19 @@ void desenhar_tela()
         bufferConsole[i].Attributes = FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED; // Define cor padrão
     }
 
-    // Exibir Score e Vidas no topo da tela
+    // ----- Exibir Score e Vidas no topo da tela ----- //
     int margem_do_texto = 5; // Valor usado para dar espaçamento do texto
     char scoreTexto[30];
-    sprintf(scoreTexto, "SCORE: %d", jogo.score);
+    sprintf(scoreTexto, "SCORE: %d", jogo.score); // o sprintf --> é usada para formatar e armazenar uma string em um buffer
     for (int i = 0; scoreTexto[i] != '\0'; ++i)
     {
-        int indice = 2 * LARGURA + (i + margem_do_texto);
+        int indice = 2 * LARGURA + (i + margem_do_texto); // --> posicionamento do score
         bufferConsole[indice].Char.AsciiChar = scoreTexto[i];
     }
 
     char vidasTexto[20];
     sprintf(vidasTexto, "LIVES: %d", jogador.vidas);
-    int posInicioVidas = (LARGURA - margem_do_texto) - strlen(vidasTexto);
+    int posInicioVidas = (LARGURA - margem_do_texto) - strlen(vidasTexto);// -->usada para determinar o comprimento de uma string, excluindo o caractere nulo ('\0') que termina a string.
     for (int i = 0; vidasTexto[i] != '\0'; ++i)
     {
         int indice = 2 * LARGURA + (posInicioVidas + i);
@@ -656,7 +661,7 @@ void desenhar_tela()
         if (intervalo_de_movimento >= 7)
         {
 
-            if (inimigos[TOTAL_INIMIGOS - 1].pos_y == jogador.pos_y - 1)
+            if (inimigos[TOTAL_INIMIGOS - 1].pos_y == jogador.pos_y - 1) // caso os inimigos cheguem perto do player, para encerrar o programa
             {
                 jogador.vidas = 0;
                 break;
@@ -746,7 +751,7 @@ void desenhar_tela()
         }
     }
 
-    WriteConsoleOutputA(console, bufferConsole, tamanhoBuffer, posicaoCaractere, &areaEscritaConsole);
+    WriteConsoleOutputA(console, bufferConsole, tamanhoBuffer, posicaoCaractere, &areaEscritaConsole); // -->é usada para escrever um bloco de caracteres e seus atributos em um buffer de console.
     if (intervalo_de_movimento >= 7)
     {
         if (inimigos[TOTAL_INIMIGOS - 1].pos_x >= LARGURA - 2)
@@ -778,12 +783,13 @@ void gerar_gameOver()
 
 int main()
 {
-    console = GetStdHandle(STD_OUTPUT_HANDLE);
+    console = GetStdHandle(STD_OUTPUT_HANDLE); // --> Usado para obter o handle da saída padrão do console. Este handle pode ser usado para escrever no console.
     carregar_config_jogo();
     carregar_config_projetil_inimigo();
 
     // Serve para que possa ser criado números aleatórios, que são usados para selecionar qual inimigo irá atirar
-    srand(time(NULL));
+
+    srand(time(NULL)); // --> inicializa o gerador de números aleatórios usando o tempo atual como semente, garantindo realmente que os numeros vão ser aleatorios
     while (1)
     {
         carregar_menu_jogo();
@@ -798,6 +804,7 @@ int main()
                 gerar_gameOver();
                 int seila = carregar_game_over();
 
+                // função para jogar novamente
                 if (seila == 0)
                 {
                     system("CLS");
@@ -808,6 +815,7 @@ int main()
                     jogo.score = 0;
                 }
 
+                // função para retornar para o Menu
                 else if (seila == 1)
                 {
                     jogo.score = 0;
