@@ -105,14 +105,14 @@ void carregar_menu_jogo()
     char menu[11][43] = {
         "               SPACE_INVADERS              ",
         "+ - - - - - - - - - - - - - - - - - - - - +",
-        "|                                         |",
+        "|      *                                  |",
         "|            >> NEW GAME            +     |",
         "|  *                                      |",
-        "|               RANKING      *            |",
-        "|                                         |",
-        "|               COMO JOGAR                |",
-        "|       *                                 |",
-        "|               QUIT                      |",
+        "|      .                     *            |",
+        "|               COMO JOGAR         .      |",
+        "|                  +                      |",
+        "|       *                    .            |",
+        "|               QUIT                  *   |",
         "+ - - - - - - - - - - - - - - - - - - - - +"};
 
     while (1)
@@ -145,23 +145,14 @@ void carregar_menu_jogo()
                 menu[9][13] = ' ';
                 menu[9][14] = ' ';
 
-                menu[7][13] = '>';
-                menu[7][14] = '>';
+                menu[6][13] = '>';
+                menu[6][14] = '>';
             }
 
-            else if (menu[7][13] == '>')
+            else if (menu[6][13] == '>')
             {
-                menu[7][13] = ' ';
-                menu[7][14] = ' ';
-
-                menu[5][13] = '>';
-                menu[5][14] = '>';
-            }
-
-            else if (menu[5][13] == '>')
-            {
-                menu[5][13] = ' ';
-                menu[5][14] = ' ';
+                menu[6][13] = ' ';
+                menu[6][14] = ' ';
 
                 menu[3][13] = '>';
                 menu[3][14] = '>';
@@ -175,23 +166,14 @@ void carregar_menu_jogo()
                 menu[3][13] = ' ';
                 menu[3][14] = ' ';
 
-                menu[5][13] = '>';
-                menu[5][14] = '>';
+                menu[6][13] = '>';
+                menu[6][14] = '>';
             }
 
-            else if (menu[5][13] == '>')
+            else if (menu[6][13] == '>')
             {
-                menu[5][13] = ' ';
-                menu[5][14] = ' ';
-
-                menu[7][13] = '>';
-                menu[7][14] = '>';
-            }
-
-            else if (menu[7][13] == '>')
-            {
-                menu[7][13] = ' ';
-                menu[7][14] = ' ';
+                menu[6][13] = ' ';
+                menu[6][14] = ' ';
 
                 menu[9][13] = '>';
                 menu[9][14] = '>';
@@ -215,12 +197,7 @@ void carregar_menu_jogo()
                 break;
             }
 
-            else if (menu[5][13] == '>')
-            {
-                // chamar a função do rnaking aqui
-            }
-
-            else if (menu[7][13] == '>')
+            else if (menu[6][13] == '>')
             {
                 system("CLS");
                 char comoJogar[27][43] = {
