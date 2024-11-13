@@ -451,7 +451,6 @@ int carregar_game_over()
             else if (menu_gameOver[6][13] == '>')
             {
                 jogo.game_over = 0;
-                carregar_menu_jogo();
                 carregar_config_jogador();
                 carregar_config_projetil();
                 carregar_config_inimigo();
