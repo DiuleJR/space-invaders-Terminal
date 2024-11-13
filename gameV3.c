@@ -1,9 +1,9 @@
 // -- inclusão das bibliotecas a serem utilizadas -- //
 #include <stdio.h>
-#include <conio.h> // --> funções para manipulação de entrada/saída do console (como ler teclas pressionadas diretamente do teclado).
-#include <stdlib.h> // --> funções úteis para a alocação de memória, controle de processos, conversão de tipos e outras operações gerais.
+#include <conio.h>   // --> funções para manipulação de entrada/saída do console (como ler teclas pressionadas diretamente do teclado).
+#include <stdlib.h>  // --> funções úteis para a alocação de memória, controle de processos, conversão de tipos e outras operações gerais.
 #include <windows.h> // --> desenvolvimento de aplicações que interagem com o sistema operacional Windows.
-#include <time.h> // --> utiliza mecanismos para usar o tempo local do dispositivo
+#include <time.h>    // --> utiliza mecanismos para usar o tempo local do dispositivo
 
 // ---- definição das constantes do codigo ---- //
 #define ALTURA 30
@@ -57,10 +57,10 @@ Projetil projetil;
 Projetil projetilInimigo;
 Inimigo inimigos[TOTAL_INIMIGOS];
 // ----------- PARTE DO PROFESSOR --------------- //
-//Buffer: Um array de caracteres onde a string formatada será armazenada//
-HANDLE console; // --> ex.: leitura de entrada diretamente do console, tem como objetivo fazer referência a objetos do sistema, como janelas, arquivos, e consoles
+// Buffer: Um array de caracteres onde a string formatada será armazenada//
+HANDLE console;                            // --> ex.: leitura de entrada diretamente do console, tem como objetivo fazer referência a objetos do sistema, como janelas, arquivos, e consoles
 CHAR_INFO bufferConsole[LARGURA * ALTURA]; // --> manipulação de consoles, especificamente para operações de leitura e escrita em buffers de console
-COORD tamanhoBuffer = {LARGURA, ALTURA}; // --> representar coordenadas de console, especialmente quando você precisa especificar uma posição em uma tela de console.
+COORD tamanhoBuffer = {LARGURA, ALTURA};   // --> representar coordenadas de console, especialmente quando você precisa especificar uma posição em uma tela de console.
 COORD posicaoCaractere = {0, 0};
 SMALL_RECT areaEscritaConsole = {0, 0, LARGURA - 1, ALTURA - 1}; // --> definir e manipular pequenas áreas retangulares, especialmente na programação de consoles.
 
@@ -227,7 +227,7 @@ void carregar_menu_jogo()
                     "|     deixarem elas chegarem perto da     |",
                     "|          sua nave ou que elas   *       |",
                     "|       retirem todas as suas vidas       |",
-                    "+ - - - - - - - - - - - - - - - - - - - - +"}; 
+                    "+ - - - - - - - - - - - - - - - - - - - - +"};
                 int c = 0;
                 while (c < 25)
                 {
@@ -451,6 +451,10 @@ int carregar_game_over()
             else if (menu_gameOver[6][13] == '>')
             {
                 jogo.game_over = 0;
+                carregar_menu_jogo();
+                carregar_config_jogador();
+                carregar_config_projetil();
+                carregar_config_inimigo();
                 return 0;
             }
 
@@ -530,15 +534,15 @@ void atirar_projetil_inimigo()
     int tentativas = 0; // Contador de tentativas para evitar loop infinito
 
     // Loop que irá selecionar um inimigo para disparar o próximo tiro.
-    /* Para que seja escolhido sempre um inimigo que está na frente 
+    /* Para que seja escolhido sempre um inimigo que está na frente
     (evitando assim que o disparo atravesse algum inimigo) será escolhido uma coluna aleatóriamente e depois,
-    começando da fileira da frente, irá verificar se o inimigo está vivo. 
+    começando da fileira da frente, irá verificar se o inimigo está vivo.
     Caso o inimigo esteja morto, irá verificar se o inimigo de trás (na mesma coluna) está vivo,
-    e fará isso até verificar todas as fileiras da mesma coluna. 
+    e fará isso até verificar todas as fileiras da mesma coluna.
     Caso a coluna não tenha inimigos vivos, outra coluna aleatória será escolhida,
     e assim até que um inimigo seja escolhido.
     */
-   while (inimigo_disparador == -1 && tentativas < 5)
+    while (inimigo_disparador == -1 && tentativas < 5)
     {
         coluna_escolhida = rand() % TOTAL_INIMIGOS_POR_FILA;
         int coluna_x = (coluna_escolhida * INTERVALO_INIMIGOS) + inimigo_x_inicial;
@@ -602,7 +606,7 @@ void desenhar_tela()
 
     char vidasTexto[20];
     sprintf(vidasTexto, "LIVES: %d", jogador.vidas);
-    int posInicioVidas = (LARGURA - margem_do_texto) - strlen(vidasTexto);// -->usada para determinar o comprimento de uma string, excluindo o caractere nulo ('\0') que termina a string.
+    int posInicioVidas = (LARGURA - margem_do_texto) - strlen(vidasTexto); // -->usada para determinar o comprimento de uma string, excluindo o caractere nulo ('\0') que termina a string.
     for (int i = 0; vidasTexto[i] != '\0'; ++i)
     {
         int indice = 2 * LARGURA + (posInicioVidas + i);
