@@ -9,11 +9,11 @@
 #define ALTURA 30
 #define LARGURA 99
 #define FILEIRAS_DE_INIMIGOS 3
-#define TOTAL_INIMIGOS_POR_FILA 15
-#define TOTAL_INIMIGOS 45
+#define TOTAL_INIMIGOS_POR_FILA 11
+#define TOTAL_INIMIGOS 33
 #define INTERVALO_INIMIGOS 2
 #define ESPACO_VAZIO ' '
-#define ATRASO_TIQUE 50
+#define ATRASO_TIQUE 10
 
 // --------- Criar as estrutras -------- //
 typedef struct // --> estruturas para criar e manipular variáveis de maneira mais concisa, tornando o código mais legível e fácil de usar.
@@ -84,7 +84,7 @@ void carregar_config_projetil_inimigo()
 {
     projetilInimigo.pos_x = 999;
     projetilInimigo.pos_y = 999;
-    projetilInimigo.velocidade = 1;
+    projetilInimigo.velocidade = 2;
     projetilInimigo.contador = 0;
     projetilInimigo.sprite = 'v';
 }
@@ -522,7 +522,7 @@ void controlar_jogador()
 int intervalo_de_movimento = 0;
 int deslocamento_inimigo = 1;
 int disparoInimigo = 0;
-void atirar_projetil_inimigo()
+void atirar_o_projetil_inimigo()
 {
     if (disparoInimigo == 1)
         return;
@@ -710,7 +710,7 @@ void desenhar_tela()
     else
     {
 
-        atirar_projetil_inimigo();
+        atirar_o_projetil_inimigo();
     }
 
     // Cria as bordas do mapa
